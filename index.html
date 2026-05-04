@@ -3,159 +3,291 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Obține CID Microsoft</title>
+    <title>Obține CID Microsoft | Wow-Soft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg: #0b1020;
-        --card: #121a33;
-        --card-2: #1a2548;
-        --text: #e7ecff;
-        --muted: #9fb0e3;
-        --accent: #6ea8fe;
-        --danger: #ff7a90;
-        --ok: #8dffb0;
-        --border: rgba(255, 255, 255, 0.14);
-        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        --bg-color: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --accent-color: #3b82f6;
+        --accent-hover: #2563eb;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --border-color: rgba(255, 255, 255, 0.1);
+        --success: #22c55e;
+        --error: #ef4444;
       }
 
       * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
       body {
-        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-color);
+        background-image: 
+          radial-gradient(at 0% 0%, rgba(30, 41, 59, 1) 0, transparent 50%),
+          radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.1) 0, transparent 50%),
+          radial-gradient(at 50% 100%, rgba(15, 23, 42, 1) 0, transparent 50%);
+        color: var(--text-primary);
         min-height: 100vh;
-        font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(1000px 600px at -10% -20%, #213370 0%, transparent 55%),
-          radial-gradient(900px 550px at 110% 120%, #245b66 0%, transparent 55%),
-          var(--bg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.5;
+        padding: 20px;
       }
 
       .container {
-        width: min(560px, 92%);
-        margin: 60px auto;
+        width: 100%;
+        max-width: 540px;
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
       }
 
       h1 {
-        margin: 0 0 10px;
-        font-size: clamp(28px, 4vw, 42px);
-        font-weight: 700;
+        font-size: 2.5rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        margin-bottom: 12px;
+        background: linear-gradient(to right, #f8fafc, #94a3b8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .subtitle {
-        margin: 0 0 32px;
-        color: var(--muted);
+        color: var(--text-secondary);
+        font-size: 1.1rem;
       }
 
       .card {
-        background: linear-gradient(180deg, var(--card), var(--card-2));
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 24px;
-        box-shadow: var(--shadow);
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       }
 
-      .card h2 {
-        margin: 0 0 6px;
-        font-size: 22px;
+      .input-group {
+        margin-bottom: 24px;
       }
 
-      .card p {
-        margin: 0 0 16px;
-        color: var(--muted);
-      }
-
-      .label {
+      label {
         display: block;
-        margin: 10px 0 6px;
-        font-size: 14px;
-        color: #cad7ff;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
       }
 
       input[type="text"] {
         width: 100%;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.03);
-        color: var(--text);
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid var(--border-color);
         border-radius: 12px;
-        padding: 16px 18px;
-        font-size: 16px;
+        padding: 16px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.2s;
         outline: none;
-        transition: border-color 120ms ease;
       }
 
       input[type="text"]:focus {
-        border-color: var(--accent);
-      }
-
-      .actions {
-        margin-top: 14px;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
       }
 
       button {
         width: 100%;
-        border: 0;
+        background: var(--accent-color);
+        color: white;
+        border: none;
         border-radius: 12px;
-        background: linear-gradient(90deg, var(--accent), #7f8dff);
-        color: #061431;
-        font-weight: 700;
-        padding: 12px 16px;
+        padding: 16px;
+        font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      button:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      }
+
+      button:active {
+        transform: translateY(0);
       }
 
       button:disabled {
-        opacity: 0.65;
-        cursor: wait;
+        opacity: 0.7;
+        cursor: not-allowed;
       }
 
-      .result {
-        margin-top: 16px;
+      .result-container {
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border-color);
+        display: none;
+      }
+
+      .result-container.active {
+        display: block;
+        animation: slideDown 0.3s ease-out;
+      }
+
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .result-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 12px;
+        color: var(--text-secondary);
+      }
+
+      .result-box {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid var(--border-color);
         border-radius: 12px;
-        border: 1px solid var(--border);
-        background: rgba(0, 0, 0, 0.18);
-        padding: 12px;
-        min-height: 72px;
-        white-space: pre-wrap;
-        word-break: break-word;
+        padding: 16px;
+        font-family: monospace;
+        font-size: 1.1rem;
+        word-break: break-all;
+        text-align: center;
+        letter-spacing: 0.05em;
       }
 
-      .ok {
-        color: var(--ok);
+      .status-message {
+        margin-top: 16px;
+        font-size: 0.875rem;
+        text-align: center;
       }
 
-      .error {
-        color: var(--danger);
+      .status-message.success { color: var(--success); }
+      .status-message.error { color: var(--error); }
+
+      footer {
+        margin-top: auto;
+        padding-top: 40px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+      }
+
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 0.8s linear infinite;
+        display: none;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      @media (max-width: 640px) {
+        h1 { font-size: 2rem; }
+        .card { padding: 24px; }
       }
     </style>
   </head>
   <body>
     <main class="container">
-      <h1>Obține CID Microsoft</h1>
-      <p class="subtitle">Introdu ID-ul pentru a obține CID-ul de activare.</p>
+      <header>
+        <h1>Obține CID Microsoft</h1>
+        <p class="subtitle">Introdu IID-ul pentru a genera codul de confirmare.</p>
+      </header>
 
       <div class="card">
-        <h2>Din ID text</h2>
-        <p>Introdu ID-ul și apasă butonul pentru obține CID.</p>
-        <label for="iid-input" class="label">IID</label>
-        <input id="iid-input" type="text" placeholder="Ex: 123456-123456-..." />
-        <div class="actions">
-          <button id="iid-button">Generează CID</button>
+        <div class="input-group">
+          <label for="iid-input">Installation ID (IID)</label>
+          <input 
+            id="iid-input" 
+            type="text" 
+            placeholder="Ex: 123456-123456-..." 
+            autocomplete="off"
+            spellcheck="false"
+          />
         </div>
-        <div id="iid-result" class="result">Rezultatul va apărea aici.</div>
+
+        <button id="iid-button">
+          <span class="spinner" id="btn-spinner"></span>
+          <span id="btn-text">Generează CID</span>
+        </button>
+
+        <div id="status-msg" class="status-message"></div>
+
+        <div id="result-container" class="result-container">
+          <p class="result-label">Confirmation ID (CID):</p>
+          <div id="iid-result" class="result-box"></div>
+        </div>
       </div>
     </main>
+
+    <footer>
+      <p>&copy; 2024 Wow-Soft. Toate drepturile rezervate.</p>
+    </footer>
 
     <script>
       const iidInput = document.getElementById("iid-input");
       const iidButton = document.getElementById("iid-button");
       const iidResult = document.getElementById("iid-result");
+      const resultContainer = document.getElementById("result-container");
+      const statusMsg = document.getElementById("status-msg");
+      const btnSpinner = document.getElementById("btn-spinner");
+      const btnText = document.getElementById("btn-text");
 
-      function setResult(el, text, type) {
-        el.textContent = text;
-        el.classList.remove("ok", "error");
-        if (type) el.classList.add(type);
+      function setStatus(text, type) {
+        statusMsg.textContent = text;
+        statusMsg.className = "status-message " + (type || "");
+      }
+
+      function showResult(cid) {
+        iidResult.textContent = cid;
+        resultContainer.classList.add("active");
+        setStatus("CID generat cu succes!", "success");
+      }
+
+      function hideResult() {
+        resultContainer.classList.remove("active");
+        setStatus("", "");
+      }
+
+      function setLoading(isLoading) {
+        iidButton.disabled = isLoading;
+        btnSpinner.style.display = isLoading ? "block" : "none";
+        btnText.textContent = isLoading ? "Se generează..." : "Generează CID";
+        if (isLoading) hideResult();
       }
 
       function isIidFormatValid(iid) {
@@ -165,18 +297,18 @@
 
       async function handleIid() {
         const iid = iidInput.value.trim();
+        
         if (!iid) {
-          setResult(iidResult, "IID-ul este gol. Introdu un IID valid.", "error");
+          setStatus("Introdu un IID valid.", "error");
           return;
         }
 
         if (!isIidFormatValid(iid)) {
-          setResult(iidResult, "IID invalid, verifică din nou codul introdus.", "error");
+          setStatus("IID invalid. Verifică cifrele introduse.", "error");
           return;
         }
 
-        iidButton.disabled = true;
-        setResult(iidResult, "Se generează CID...");
+        setLoading(true);
 
         try {
           const response = await fetch("/.netlify/functions/get-cid-iid", {
@@ -184,33 +316,37 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ iid }),
           });
-          const text = await response.text();
-          let data;
-          try {
-            data = JSON.parse(text);
-          } catch {
-            throw new Error("Verifică corectitudinea IID, dacă acesta este corect atunci contactează echipa de suport.");
+          
+          if (!response.ok) {
+            throw new Error("Eroare la server. Reîncearcă mai târziu.");
           }
+
+          const data = await response.json();
 
           if (data.error) {
             throw new Error(data.error);
           }
 
-          if (!data.cid || typeof data.cid !== "string") {
-            throw new Error("Verifică corectitudinea IID, dacă acesta este corect atunci contactează echipa de suport.");
+          if (!data.cid) {
+            throw new Error("Nu s-a putut genera CID-ul pentru acest IID.");
           }
 
-          setResult(iidResult, `CID: ${data.cid}`, "ok");
+          showResult(data.cid);
         } catch (error) {
-          setResult(iidResult, error.message || "A apărut o eroare la generarea CID-ului.", "error");
+          setStatus(error.message || "A apărut o eroare neașteptată.", "error");
         } finally {
-          iidButton.disabled = false;
+          setLoading(false);
         }
       }
 
       iidButton.addEventListener("click", handleIid);
       iidInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") handleIid();
+      });
+
+      // Simple auto-formatting for IID (optional improvement)
+      iidInput.addEventListener("input", (e) => {
+        if (statusMsg.textContent) setStatus("", "");
       });
     </script>
   </body>
