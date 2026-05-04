@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Obține CID Microsoft</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --card: #121a33;
+        --card-2: #1a2548;
+        --text: #e7ecff;
+        --muted: #9fb0e3;
+        --accent: #6ea8fe;
+        --danger: #ff7a90;
+        --ok: #8dffb0;
+        --border: rgba(255, 255, 255, 0.14);
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(1000px 600px at -10% -20%, #213370 0%, transparent 55%),
+          radial-gradient(900px 550px at 110% 120%, #245b66 0%, transparent 55%),
+          var(--bg);
+      }
+
+      .container {
+        width: min(560px, 92%);
+        margin: 60px auto;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(28px, 4vw, 42px);
+        font-weight: 700;
+      }
+
+      .subtitle {
+        margin: 0 0 32px;
+        color: var(--muted);
+      }
+
+      .card {
+        background: linear-gradient(180deg, var(--card), var(--card-2));
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: var(--shadow);
+      }
+
+      .card h2 {
+        margin: 0 0 6px;
+        font-size: 22px;
+      }
+
+      .card p {
+        margin: 0 0 16px;
+        color: var(--muted);
+      }
+
+      .label {
+        display: block;
+        margin: 10px 0 6px;
+        font-size: 14px;
+        color: #cad7ff;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        border-radius: 12px;
+        padding: 16px 18px;
+        font-size: 16px;
+        outline: none;
+        transition: border-color 120ms ease;
+      }
+
+      input[type="text"]:focus {
+        border-color: var(--accent);
+      }
+
+      .actions {
+        margin-top: 14px;
+      }
+
+      button {
+        width: 100%;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(90deg, var(--accent), #7f8dff);
+        color: #061431;
+        font-weight: 700;
+        padding: 12px 16px;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.65;
+        cursor: wait;
+      }
+
+      .result {
+        margin-top: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.18);
+        padding: 12px;
+        min-height: 72px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .ok {
+        color: var(--ok);
+      }
+
+      .error {
+        color: var(--danger);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Obține CID Microsoft</h1>
+      <p class="subtitle">Introdu ID-ul pentru a obține CID-ul de activare.</p>
+
+      <div class="card">
+        <h2>Din ID text</h2>
+        <p>Introdu ID-ul și apasă butonul pentru obține CID.</p>
+        <label for="iid-input" class="label">IID</label>
+        <input id="iid-input" type="text" placeholder="Ex: 123456-123456-..." />
+        <div class="actions">
+          <button id="iid-button">Generează CID</button>
+        </div>
+        <div id="iid-result" class="result">Rezultatul va apărea aici.</div>
+      </div>
+    </main>
+
+    <script>
+      const iidInput = document.getElementById("iid-input");
+      const iidButton = document.getElementById("iid-button");
+      const iidResult = document.getElementById("iid-result");
+
+      function setResult(el, text, type) {
+        el.textContent = text;
+        el.classList.remove("ok", "error");
+        if (type) el.classList.add(type);
+      }
+
+      function isIidFormatValid(iid) {
+        const normalized = iid.replace(/[-\s]/g, "");
+        return /^\d+$/.test(normalized) && normalized.length >= 30;
+      }
+
+      async function handleIid() {
+        const iid = iidInput.value.trim();
+        if (!iid) {
+          setResult(iidResult, "IID-ul este gol. Introdu un IID valid.", "error");
+          return;
+        }
+
+        if (!isIidFormatValid(iid)) {
+          setResult(iidResult, "IID invalid, verifică din nou codul introdus.", "error");
+          return;
+        }
+
+        iidButton.disabled = true;
+        setResult(iidResult, "Se generează CID...");
+
+        try {
+          const response = await fetch("/.netlify/functions/get-cid-iid", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ iid }),
+          });
+          const text = await response.text();
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            throw new Error("Verifică corectitudinea IID, dacă acesta este corect atunci contactează echipa de suport.");
+          }
+
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          if (!data.cid || typeof data.cid !== "string") {
+            throw new Error("Verifică corectitudinea IID, dacă acesta este corect atunci contactează echipa de suport.");
+          }
+
+          setResult(iidResult, `CID: ${data.cid}`, "ok");
+        } catch (error) {
+          setResult(iidResult, error.message || "A apărut o eroare la generarea CID-ului.", "error");
+        } finally {
+          iidButton.disabled = false;
+        }
+      }
+
+      iidButton.addEventListener("click", handleIid);
+      iidInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleIid();
+      });
+    </script>
+  </body>
+</html>
