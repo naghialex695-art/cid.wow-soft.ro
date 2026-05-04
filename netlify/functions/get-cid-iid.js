@@ -6,7 +6,7 @@ exports.handler = async (event) => {
     };
   }
 
-  const apiKey = process.env.PIDKEY_API_KEY;
+  const apiKey = process.env.PIDKEY_API_KEY || "adhVymrAX1XCAZ2hqauda4Fwd";
   if (!apiKey) {
     return {
       statusCode: 200,
