@@ -242,7 +242,7 @@
 
         <button id="iid-button">
           <span class="spinner" id="btn-spinner"></span>
-          <span id="btn-text">Generează CID</span>
+          <span id="btn-text">Obtine CID</span>
         </button>
 
         <div id="status-msg" class="status-message"></div>
@@ -286,7 +286,7 @@
       function setLoading(isLoading) {
         iidButton.disabled = isLoading;
         btnSpinner.style.display = isLoading ? "block" : "none";
-        btnText.textContent = isLoading ? "Se generează..." : "Generează CID";
+        btnText.textContent = isLoading ? "Se generează..." : "Obtine CID";
         if (isLoading) hideResult();
       }
 
